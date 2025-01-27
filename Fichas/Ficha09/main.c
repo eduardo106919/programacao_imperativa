@@ -16,7 +16,7 @@ int main() {
     // N = rand() % 16;
     a1 = RandArvFromArray(v2, N);
     printf("Primeira árvore de teste (%d elementos)\n", N);
-    dumpABin(a1);
+    showABin(a1);
 
     printf("altura = %d\n", altura(a1));
     printf("numero de folhas: %d\n", nFolhas(a1));
@@ -28,7 +28,7 @@ int main() {
         printf("%d\n", r->valor);
     printf("Elementos no nivel 3_______\n");
     imprimeNivel(a1, 3);
-    printf("\n___________________________\n");
+    printf("___________________________\n");
 
     printf("procura de 2: %d\n", procuraE(a1, 2));
     printf("procura de 9: %d\n", procuraE(a1, 9));
@@ -38,7 +38,7 @@ int main() {
     // N = rand() % 16;
     a2 = RandArvFromArray(v1, N);
     printf("\nSegunda árvore de teste (%d elementos)\n", N);
-    dumpABin(a2);
+    showABin(a2);
 
     printf("procura de 9: ");
     r = procura(a2, 9);
@@ -58,7 +58,7 @@ int main() {
 
     freeABin(a1);
 
-    printf("\n\n___________ Fim dos testes ___________\n\n");
+    printf("___________ Fim dos testes ___________\n");
 
     return 0;
 }

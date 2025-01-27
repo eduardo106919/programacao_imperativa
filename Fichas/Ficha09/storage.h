@@ -10,7 +10,7 @@ typedef struct nodo {
 
 ABin newABin (int r, ABin e, ABin d);
 ABin RandArvFromArray (int v[], int N);
-void dumpABin (ABin a);
+void showABin (ABin btree);
 void freeABin (ABin a);
 
 int altura (ABin a);

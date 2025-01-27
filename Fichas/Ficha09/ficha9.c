@@ -2,6 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+
+// Funções auxiliares
 
 ABin newABin(int r, ABin e, ABin d) {
     ABin a = malloc(sizeof(struct nodo));
@@ -24,32 +27,6 @@ ABin RandArvFromArray(int v[], int N) {
     return a;
 }
 
-void print2DUtil(ABin a, int space) {
-    if (a == NULL)
-        return;
-
-    // Increase distance between levels
-    space += COUNT;
-
-    // Process right child first
-    print2DUtil(a->dir, space);
-
-    // Print current node after space
-    // count
-    printf("\n");
-    for (int i = COUNT; i < space; i++)
-        printf(" ");
-    printf("%d\n", a->valor);
-
-    // Process left child
-    print2DUtil(a->esq, space);
-}
-
-void dumpABin(ABin a) {
-    // Pass initial space count as 0
-    print2DUtil(a, 0);
-}
-
 void freeABin(ABin a) {
     if (a) {
         ABin e_temp = a->esq;
@@ -60,13 +37,68 @@ void freeABin(ABin a) {
     }
 }
 
+void breath_first_traversal(ABin root, ABin storage[], int size) {
+    int start = 0, end = 0;
+    // enqueue
+    storage[end++] = root;
+
+    while (start < end && end < size) {
+        // dequeue
+        root = storage[start++];
+        // NULL is an empty node
+        if (root != NULL) {
+            // enqueue
+            storage[end++] = root->esq;
+            storage[end++] = root->dir;
+        } else if (end + 2 < size)
+            end += 2;
+    }
+}
+
+void showABin(ABin btree) {
+    int total = (int) pow(2, altura(btree)) - 1;
+
+    ABin storage[total];
+    int iterate = 0;
+    for (; iterate < total; iterate++)
+        storage[iterate] = NULL;
+
+    breath_first_traversal(btree, storage, total);
+
+    int level = 1, count = 0, space = 0;
+    for (iterate = 0; iterate < total; iterate++) {
+        if (count == level) {
+            printf("\n");
+            level *= 2;
+            count = 0;
+            space = 0;
+        }
+        if (space == 2) {
+            printf(" ");
+            space = 0;
+        }
+        space++;
+        count++;
+
+        if (storage[iterate] != NULL)
+            printf("%d ", storage[iterate]->valor);
+        else
+            printf("X ");
+
+    }
+
+    printf("\n");
+}
+
+// Exercícios
+
 int altura(ABin a) {
     if (!a)
         return 0;
     int left = altura(a->esq);
     int right = altura(a->dir);
 
-    return 1 + (left > right) ? left : right;
+    return 1 + (left > right ? left : right);
 }
 
 int nFolhas(ABin a) {
