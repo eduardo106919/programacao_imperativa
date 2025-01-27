@@ -4,69 +4,62 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define MAX_VALUE 100
+
 int main() {
-    int v1[15] = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29},
-        N = 15, i;
-    ABin a1, r;
+    srand(time(0));
 
-    srand(time(NULL));
+    ABin tree;
+    int size = 15;
+    int array[size];
+    int j = 0;
+    for (j = 0; j < size; j++)
+        array[j] = j;
 
-    printf("_______________ Testes _______________\n\n");
-    // N = rand() % 16;
-    a1 = RandArvFromArray(v1, N);
-    printf("________________________________________\n");
-    printf("Primeira árvore de teste (%d elementos)\n", N);
-    dumpABin(a1);
+    tree = RandArvFromArray(array, size);
+    printf("------------- RANDOM BINARY TREE -------------\n");
+    showABin(tree);
 
-    /*
-    printf ("Espinha\n");
-    constroiEspinha_sol (&a1);
+    int index = rand() % size;
 
-    dumpABin (a1, N);
+    printf("Remove %*d\n", 2, array[index]);
+    removeElem(&tree, array[index]);
+    showABin(tree);
+    
+    index = rand() % size;
+    printf("Remove %*d\n", 2, array[index]);
+    removeElem(&tree, array[index]);
+    showABin(tree);
 
-    printf ("Equilibrar espinha\n");
-    equilibraEspinha_sol (&a1,N);
-    dumpABin (a1, N);
-    */
+    printf("------------- Promove Maior -------------\n");
+    promoveMaior(&tree);
+    showABin(tree);
 
-    i = rand() % N;
-    printf("Remoção do elemento %d\n", v1[i]);
-    removeElem(&a1, v1[i]);
-    dumpABin(a1);
+    printf("------------- Clean Up -------------\n");
+    freeABin(tree);
+    printf("------------- New Tree -------------\n");
+    tree = RandArvFromArray(array, size);
+    showABin(tree);
 
-    r = removeMenor(&a1);
-    printf("Remoção do menor %d\n", r->valor);
-    dumpABin(a1);
+    printf("------------- Remove Menor -------------\n");
+    ABin menor = removeMenorAlt(&tree);
+    if (menor)
+        printf("menor %*d\n", 2, menor->valor);
+    showABin(tree);
 
-    printf("Remoção da raiz %d\n", a1->valor);
-    removeRaiz(&a1);
-    dumpABin(a1);
+    printf("------------- Promove Menor -------------\n");
+    promoveMenor(&tree);
+    showABin(tree);
 
-    freeABin(a1);
+    printf("------------- Clean Up -------------\n");
+    freeABin(tree);
+    printf("------------- New Tree -------------\n");
+    tree = RandArvFromArray(array, size);
+    showABin(tree);
 
-    a1 = newABin(v1[7], RandArvFromArray(v1, 7), RandArvFromArray(v1 + 8, 7));
-    N = 15;
-    printf("_______________________________________\n");
-    printf("Segunda árvore de teste (%d elementos)\n", N);
-    dumpABin(a1);
-
-    printf("Rotação à direita\n");
-    rodaDireita(&a1);
-    dumpABin(a1);
-
-    printf("Rotação à esquerda\n");
-    rodaEsquerda(&a1);
-    dumpABin(a1);
-
-    printf("Promoção do maior\n");
-    promoveMaior(&a1);
-    dumpABin(a1);
-
-    printf("Promoção do menor\n");
-    promoveMenor(&a1);
-    dumpABin(a1);
-
-    printf("\n\n___________ Fim dos testes ___________\n\n");
+    printf("------------- Equilibra -------------\n");
+    equilibra(&tree);
+    showABin(tree);
 
     return 0;
 }

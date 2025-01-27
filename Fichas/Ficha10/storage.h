@@ -8,8 +8,7 @@ typedef struct nodo {
 
 ABin newABin (int r, ABin e, ABin d);
 ABin RandArvFromArray (int v[], int N);
-ABin cloneABin (ABin a);
-void dumpABin (ABin root);
+void showABin (ABin btree);
 void freeABin (ABin a);
 
 // Questão 1

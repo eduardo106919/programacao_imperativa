@@ -2,6 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+
+// Funções auxiliares
 
 ABin newABin(int r, ABin e, ABin d) {
     ABin a = malloc(sizeof(struct nodo));
@@ -34,13 +37,66 @@ void freeABin(ABin a) {
     }
 }
 
-// Function to print the binary tree in-order
-void dumpABin(ABin root) {
-    if (root != NULL) {
-        dumpABin(root->esq);
-        printf("%d ", root->valor);
-        dumpABin(root->dir);
+int altura(ABin a) {
+    if (!a)
+        return 0;
+    int left = altura(a->esq);
+    int right = altura(a->dir);
+
+    return 1 + (left > right ? left : right);
+}
+
+void breath_first_traversal(ABin root, ABin storage[], int size) {
+    int start = 0, end = 0;
+    // enqueue
+    storage[end++] = root;
+
+    while (start < end && end < size) {
+        // dequeue
+        root = storage[start++];
+        // NULL is an empty node
+        if (root != NULL) {
+            // enqueue
+            storage[end++] = root->esq;
+            storage[end++] = root->dir;
+        } else if (end + 2 < size)
+            end += 2;
     }
+}
+
+void showABin(ABin btree) {
+    int total = (int) pow(2, altura(btree)) - 1;
+
+    ABin storage[total];
+    int iterate = 0;
+    for (; iterate < total; iterate++)
+        storage[iterate] = NULL;
+
+    breath_first_traversal(btree, storage, total);
+
+    int level = 1, count = 0, space = 0;
+    for (iterate = 0; iterate < total; iterate++) {
+        if (count == level) {
+            printf("\n");
+            level *= 2;
+            count = 0;
+            space = 0;
+        }
+        if (space == 2) {
+            printf(" ");
+            space = 0;
+        }
+        space++;
+        count++;
+
+        if (storage[iterate] != NULL)
+            printf("%d ", storage[iterate]->valor);
+        else
+            printf("X ");
+
+    }
+
+    printf("\n");
 }
 
 void rodaEsquerda(ABin *a) {
@@ -57,24 +113,20 @@ void rodaDireita(ABin *a) {
     *a = b;
 }
 
+// Exercicios
+
 // Questão 1
 ABin removeMenor(ABin *a) {
     if (*a == NULL)
         return NULL;
 
-    ABin temp = *a, anterior = NULL;
-    while (temp->esq) {
-        anterior = temp;
-        temp = temp->esq;
-    }
+    while ((*a)->esq != NULL)
+        a = &((*a)->esq);
 
-    // se a raiz for o mais nodo mais pequeno
-    if (temp == *a)
-        *a = (*a)->dir;
-    else
-        anterior->esq = temp->dir;
+    ABin result = *a;
+    *a = (*a)->dir;
 
-    return temp;
+    return result;
 }
 
 void removeRaiz(ABin *a) {
@@ -87,28 +139,21 @@ void removeRaiz(ABin *a) {
         subst->dir = (*a)->dir;
     }
     free(*a);
+    *a = subst;
 }
 
 int removeElem(ABin *a, int x) {
     if (*a != NULL) {
         ABin temp = *a, anterior = NULL;
-        while (temp && temp->valor != x) {
-            anterior = temp;
-            if (temp->valor < x)
-                temp = temp->dir;
+        while (*a && (*a)->valor != x) {
+            if ((*a)->valor < x)
+                a = &((*a)->dir);
             else
-                temp = temp->esq;
+                a = &((*a)->esq);
         }
-        // se x for a raiz da árvore
-        if (temp == *a)
+        // se x for encontrado
+        if (*a != NULL)
             removeRaiz(a);
-        else {
-            removeRaiz(&temp);
-            if (anterior->valor > x)
-                anterior->esq = temp;
-            else
-                anterior->dir = temp;
-        }
     }
     return 1;
 }
@@ -132,7 +177,7 @@ void promoveMaior(ABin *a) {
 ABin removeMenorAlt(ABin *a) {
     if (*a == NULL)
         return NULL;
-    // o menor passa a ser a raiz da árvore
+
     promoveMenor(a);
     ABin right = (*a)->dir;
     ABin menor = *a;
@@ -141,14 +186,48 @@ ABin removeMenorAlt(ABin *a) {
 }
 
 // Questão 3
-// TODO
 int constroiEspinhaAux(ABin *a, ABin *ult) { return (-1); }
-int constroiEspinha(ABin *a) {
-    ABin ult;
 
-    return (constroiEspinhaAux(a, &ult));
+int constroiEspinha(ABin *a) {
+    int count = 0;
+    while (*a != NULL) {
+        while ((*a)->esq != NULL)
+            rodaDireita(a);
+        
+        a = &((*a)->dir);
+        count++;
+    }
+
+    return count;
 }
 
-ABin equilibraEspinha(ABin *a, int n) { return NULL; }
+ABin equilibraEspinha(ABin *a, int n) {
+    if (n < 3 || *a == NULL)
+        return NULL;
 
-void equilibra(ABin *a) {}
+    int half = n / 2;
+    if ((*a)->esq == NULL) {
+        while (half > 0 && (*a)->dir) {
+            rodaEsquerda(a);
+            half--;
+        }
+
+        half = n / 2;
+        equilibraEspinha(&((*a)->esq), half);
+        equilibraEspinha(&((*a)->dir), n - half - 1);
+    } else if ((*a)->dir == NULL) {
+        while (half > 0 && (*a)->esq) {
+            rodaDireita(a);
+            half--;
+        }
+
+        half = n / 2;
+        equilibraEspinha(&((*a)->esq), n - half - 1);
+        equilibraEspinha(&((*a)->dir), half);
+    }
+}
+
+void equilibra(ABin *a) {
+    int n = constroiEspinha(a);
+    equilibraEspinha(a, n);
+}
