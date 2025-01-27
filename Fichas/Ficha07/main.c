@@ -14,25 +14,29 @@ int main() {
 
     for (int i = 0; i < 15; i++)
         lista = acrescentaInicio(lista, strings[i]);
-    // listaPal(lista);
+    listaPal(lista);
     assert(quantasP(lista) == 15);
 
-    // printf("Ultima: %s\n", ultima(lista));
+    printf("Ultima: %s\n", ultima(lista));
+    printf("---\n");
 
     for (int i = 15; i < 20; i++)
         lista = acrescentaFim(lista, strings[i]);
-    // listaPal(lista);
+    listaPal(lista);
     assert(quantasP(lista) == 20);
+
+    printf("---\n");
 
     libertaLista(lista);
     lista = NULL;
     assert(quantasP(lista) == 0);
 
-    // listaPal(lista);
+    listaPal(lista);
     for (int i = 0; i < 10; i++)
         lista = acrescentaInicio(lista, strings[i]);
-    // listaPal(lista);
+    listaPal(lista);
     assert(quantasP(lista) == 10);
+    printf("---\n");
 
     for (int i = 0; i < 10; i++) {
         if (i % 2 == 0) {
@@ -40,14 +44,16 @@ int main() {
             lista = acrescentaOrd(lista, strings[i]);
         }
     }
-    // listaPal(lista);
+    listaPal(lista);
     assert(quantasP(lista) == 10);
+    printf("---\n");
+
     for (int i = 0; i < 3; i++)
         lista = acrescentaOrd(lista, strings[8]);
-    // listaPal(lista);
+    listaPal(lista);
 
-    // struct celula * freq = maisFreq(lista);
-    // printf("+freq: %s\n", freq->palavra);
+    struct celula * freq = maisFreq(lista);
+    printf("+freq: %s\n", freq->palavra);
 
     return 0;
 }
