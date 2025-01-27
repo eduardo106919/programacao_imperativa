@@ -3,56 +3,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//* Helpfull functions
-void printStack(Stack s) {
-    Stack aux;
 
-    printf("Stack:");
-    for (aux = s; aux; aux = aux->prox) {
-        printf(" %d", aux->valor);
+void printStack(Stack s) {
+    while (s) {
+        printf("| %*d |\n", 2, s->valor);
+        s = s->prox;
     }
-    printf("\n");
+    printf("------\n");
 }
 
 void printQueue(Queue q) {
-    LInt aux;
-
-    printf("Queue:");
-    for (aux = q.inicio; aux; aux = aux->prox) {
-        printf(" %d", aux->valor);
+    LInt temp = q.inicio;
+    while (temp) {
+        printf("%d <- ", temp->valor);
+        temp = temp->prox;
     }
-    printf("\n");
+    printf("X\n");
 }
 
-// void printLQC(QueueC q){
-//     LInt aux;
-//     printf("QueueC:");
-//     if(!LQCisEmpty(q)){
-//         for (aux = q.fim->prox; aux != q.fim; aux = aux->prox){
-//             printf(" %d", aux->valor);
-//         }printf(" %d",aux->valor);
-//     }printf("\n");
-// }
+void printQueueC(QueueC q) {
+    if (q == NULL)
+        return;
+    LInt reference = q->prox;
+    q = q->prox;
+    do {
+        printf("%d <- ", q->valor);
+        q = q->prox;
+    } while (q && q != reference);
+    printf("X\n");
+}
 
-// void printDeque(Deque d){
-//     DList aux;
+void printDeque(Deque dq) {
+    DList temp = dq.front;
+    printf("X <-> ");
+    while (temp) {
+        printf("%d <-> ", temp->valor);
+        temp = temp->prox;
+    }
+    printf("X\n");
+}
 
-//     printf("Deque: ");
-//     for (aux = d.back; aux; aux = aux->prox){
-//         printf(" %d", aux->valor);
-//     }printf("\n");
-// }
-
-// void printDequeC(DequeC d){
-//     DList aux;
-
-//     printf("DequeC:");
-//     if(!isEmptyDequeC(d)){
-//         for (aux = d.front->prox; aux != d.front; aux = aux->prox){
-//             printf(" %d", aux->valor);
-//         }printf(" %d",aux->valor);
-//     }printf("\n");
-// }
+void printDequeC(DequeC dqc) {
+    if (dqc == NULL)
+        return;
+    DList reference = dqc->prox;
+    dqc = dqc->prox;
+    printf("X <-> ");
+    do {
+        printf("%d <-> ", dqc->valor);
+        dqc = dqc->prox;
+    } while (dqc && dqc != reference);
+    printf("X\n");
+}
 
 LInt newLInt(int x, LInt xs) {
     LInt r = (LInt)malloc(sizeof(struct slist));
@@ -176,11 +178,11 @@ int dequeueC(QueueC *q, int *x) {
     if (QisEmptyC(*q))
         return 1;
 
-    // poderá ser desnecessário
     // se só tiver um elemento na queue
-    if (*q == (*q)->prox)
+    if (*q == (*q)->prox) {
         free(*q);
-    else {
+        *q = NULL;
+    } else {
         QueueC temp = (*q)->prox->prox;
         *x = (*q)->prox->valor;
         free((*q)->prox);
@@ -213,6 +215,7 @@ int pushBack(Deque *q, int x) {
     }
 
     new->ant = q->back;
+    q->back->prox = new;
     q->back = new;
     return 0;
 }
@@ -226,6 +229,8 @@ int pushFront(Deque *q, int x) {
         q->back = new;
     }
 
+    if (q->front)
+        q->front->ant = new;
     q->front = new;
     return 0;
 }
@@ -238,6 +243,8 @@ int popBack(Deque *q, int *x) {
     *x = ultimo->valor;
 
     q->back = ultimo->ant;
+    if (q->back)
+        q->back->prox = NULL;
 
     // se a queue só tiver um elemento
     if (q->front == ultimo)
@@ -255,6 +262,8 @@ int popFront(Deque *q, int *x) {
     *x = cabeca->valor;
 
     q->front = cabeca->prox;
+    if (q->front)
+        q->front->ant = NULL;
 
     // se a queue só tiver um elemento
     if (q->back == cabeca)
@@ -272,14 +281,17 @@ int popMax(Deque *q, int *x) {
     DList tempFront = q->front->prox;
     DList tempBack = q->back;
 
-    while (tempFront && tempFront != tempBack) {
+    while (tempFront && tempBack) {
         if (reference->valor < tempFront->valor)
             reference = tempFront;
         if (reference->valor < tempBack->valor)
             reference = tempBack;
 
+        if (tempFront == tempBack)
+            break;
+
         tempFront = tempFront->prox;
-        tempBack = tempBack->prox;
+        tempBack = tempBack->ant;
     }
 
     // se o maior for a cabeca
@@ -332,8 +344,11 @@ int pushBackC(DequeC *q, int x) {
         (*q)->ant = new;
     } else {
         new->prox = (*q)->prox;
+        if ((*q)->prox)
+            (*q)->prox->ant = new;
         (*q)->prox = new;
         new->ant = *q;
+        *q = new;
     }
 
     return 0;
@@ -350,6 +365,8 @@ int pushFrontC(DequeC *q, int x) {
         (*q)->ant = new;
     } else {
         new->prox = (*q)->prox;
+        if ((*q)->prox)
+            (*q)->prox->ant = new;
         (*q)->prox = new;
         new->ant = *q;
     }
@@ -362,13 +379,20 @@ int popBackC(DequeC *q, int *x) {
         return 1;
 
     *x = (*q)->valor;
-    // liga o penultimo à cabeca
-    (*q)->ant->prox = (*q)->prox;
+    // apenas um elemento
+    if (*q == (*q)->prox) {
+        free(*q);
+        *q = NULL;
+    } else {
+        DList prev = (*q)->ant;
+        // liga o penultimo à cabeca
+        prev->prox = (*q)->prox;
+        // liga a cabeca ao penultimo
+        (*q)->prox->ant = prev;
 
-    // liga a cabeca ao penultimo
-    (*q)->prox->ant = (*q)->ant;
-
-    free(*q);
+        free(*q);
+        *q = prev;
+    }
     return 0;
 }
 
@@ -378,14 +402,17 @@ int popFrontC(DequeC *q, int *x) {
 
     DList cabeca = (*q)->prox;
     *x = cabeca->valor;
+    if (*q == cabeca) {
+        free(*q);
+        *q = NULL;
+    } else {
+        // liga o ultimo ao segundo elemento
+        (*q)->prox = cabeca->prox;
+        // liga o segundo ao ultimo
+        cabeca->prox->ant = *q;
 
-    // liga o ultimo ao segundo elemento
-    (*q)->prox = cabeca->prox;
-
-    // liga o segundo ao ultimo
-    cabeca->prox->ant = *q;
-
-    free(cabeca);
+        free(cabeca);
+    }
     return 0;
 }
 
@@ -397,20 +424,28 @@ int popMaxC(DequeC *q, int *x) {
     DList tempFront = (*q)->prox->prox;
     DList tempBack = *q;
 
-    while (tempFront && tempFront != tempBack) {
+    while (tempFront && tempBack) {
         if (tempBack->valor > reference->valor)
             reference = tempBack;
         if (tempFront->valor > reference->valor)
             reference = tempFront;
+
+        if (tempFront == tempBack)
+            break;
 
         tempBack = tempBack->ant;
         tempFront = tempFront->prox;
     }
 
     *x = reference->valor;
-    // ligo os elementos que estao e depois do reference
+
+    // ligo os elementos que estao antes e depois do reference
     reference->ant->prox = reference->prox;
     reference->prox->ant = reference->ant;
+
+    // o maior elemento é a "raiz"
+    if (reference == *q)
+        *q = reference->ant;
 
     free(reference);
     return 0;

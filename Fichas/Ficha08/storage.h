@@ -82,8 +82,12 @@ int popMaxC (DequeC *q, int *x);
 int backC (DequeC q, int *x);
 int DQfrontC (DequeC q, int *x);
 
+/* Output functions */
 
 void printStack(Stack s);
 void printQueue(Queue q);
+void printQueueC(QueueC q);
+void printDeque(Deque dq);
+void printDequeC(DequeC dqc);
 
 #endif
