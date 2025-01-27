@@ -10,4 +10,4 @@ Conteúdos disponíveis:
 - [Testes](/Testes/)
 - [Mini Testes](/Mini-Testes/)
 
-Se encontrarem **erros** ou **soluções melhores**, entrem em [contacto](a106919@uminho.pt) comigo.
+Se encontrarem **erros** ou **soluções melhores**, entrem em [contacto](mailto:a106919@uminho.pt) comigo.
