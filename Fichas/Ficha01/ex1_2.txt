@@ -1,0 +1,86 @@
+
+1 Estados e Atribuições 
+
+1. 
+Output: 12 16 
+
+Justificação: na primeira declaração de x, esta variável assume o valor 3, depois a variável y assume
+              o valor de x (que é 3) incrementado uma unidade, logo y = 4; de seguida x assume o valor 12 pois
+              x = 3 e y = 4, por fim y será 16, pois x = 12 e y = 4.
+
+2.
+Supostamente o programa não devia correr, pois a variável y não foi incializada, mas y vai assumir o valor
+que o seu local de memória continha (lixo, valor aleatório)
+
+3.  
+Output: A 65          (1)
+        B 66 '2' 50   (2)
+        b 98          (3)
+
+Justificação: em (1) o output será A 65 pois é assim que a variável a foi inicializada,
+              de seguida em (2), incrementa-se uma unidade à variável a e duas unidades à 
+              variável c, alterando as suas componentes para 'B' e '2', por fim a variável c 
+              assume o caracter 'b' resultado da soma de 66 e 32 (98). 
+
+4.
+Output: 100 200
+
+Justificação: int x, y;
+              x = 200; y = 100; 
+              x = x + y;              (x = 200 + 100 = 300)
+              y = x - y;              (y = 300 - 100 = 200)
+              x = x - y;              (x = 300 - 200 = 100)
+
+
+2 Estruturas de Controlo 
+
+(a) 
+Output: 3 5 
+
+Justificação: na terceira linha o programa testa se x é maior que y, mas 3 não é maior que 5 
+              logo não executará a correspondente declaração, então o output será "3 5".
+
+(b)
+Output: 11 66
+
+Justificação: int x, y;
+              x = y = 0;
+              while (x != 0) {
+                x = x + 1; y += x;
+              }
+Iterações: 1º  -> x = 1,  y = 1 
+           2º  -> x = 2,  y = 3
+           3º  -> x = 3,  y = 6
+           4º  -> x = 4,  y = 10
+           5º  -> x = 5,  y = 15
+           6º  -> x = 6,  y = 21
+           7º  -> x = 7,  y = 28
+           8º  -> x = 8,  y = 36
+           9º  -> x = 9,  y = 45
+           10º -> x = 10, y = 55
+           11º -> x = 11, y = 66
+
+(c)
+Output: _#_#_#_#_#_#_#_#_#_#  
+                          
+Justificação: através do for, a variável i vai percorer todos os inteiros entre 0 e 19, sendo apenas 10 
+              deles pares e outros 10 ímpares.
+
+(d)
+Output: '\n'
+        1
+        01
+        11
+        001
+        101
+        011
+        111
+        0001
+        1001
+        0101
+        1101
+        0011
+        1011
+        0111
+        1111
+
