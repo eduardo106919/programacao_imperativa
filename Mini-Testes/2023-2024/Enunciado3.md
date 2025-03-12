@@ -1,11 +1,12 @@
+# MINI TESTE 3
 
-===================================================== MINI TESTE 2 =====================================================
+## PERGUNTA 1
 
--> PERGUNTA 1
+Dado o seguinte array, **ordena os dígitos** de cada elemento do array (colocando os dígitos por ordem crescente) e indica a **sequência mais frequente** do array resultante.
 
-Dado o seguinte array, ordena os dígitos de cada elemento do array (colocando os 
-dígitos por ordem crescente) e indica a sequência mais frequente do array resultante.
+*(Given the following array, **sort the digits** of each element of the array (by putting the digits in ascending order) and indicate the **most frequent sequence** of the resulting array.)*
 
+```C
 int sequencia[1629] = {819, 970, 471, 717, 204, 904, 142, 964, 561, 530, 502, 536, 247, 789, 783, 817, 724, 745, 
                        911, 281, 919, 269, 234, 832, 944, 879, 744, 459, 221, 785, 790, 727, 434, 709, 361, 932, 
                        488, 112, 183, 922, 841, 394, 182, 536, 946, 445, 550, 548, 628, 459, 397, 948, 273, 166, 
@@ -97,20 +98,23 @@ int sequencia[1629] = {819, 970, 471, 717, 204, 904, 142, 964, 561, 530, 502, 53
                        212, 746, 696, 841, 920, 200, 544, 967, 358, 924, 199, 884, 386, 581, 129, 249, 248, 718, 
                        593, 110, 616, 709, 461, 812, 708, 421, 658, 458, 452, 152, 694, 259, 659, 723, 328, 920, 
                        177, 407, 885, 642, 974, 151, 344, 300, 174};
+```
 
-Notas: Um zero à esquerda não é representado e, por isso, na prática, os zeros podem ser ignorados.
-Em caso de empate em número de ocorrências, deve escolher o menor.
+**Notas**: Um zero à esquerda não é representado e, por isso, na prática, os zeros podem ser ignorados. Em caso de empate em número de ocorrências, deve escolher o menor.
 
-Por exemplo, para o array[5] = {132,1230,231,348,348}, originaria o array correspondente
-array_res[5] = {123,123,123,348,348}. O mais frequente seria o 123 e o menos frequente o 348.
+*(**Notes**: A leading zero is not represented, so in practice zeros can be ignored. In the event of a tie in number of occurrences, the lowest should be chosen.)*
 
-------------------------------------------------------------------------------------------------------------------------
+Por exemplo, para o `array[5] = {132,1230,231,348,348}`, originaria o array correspondente `array_res[5] = {123,123,123,348,348}`. O mais frequente seria o `123` e o menos frequente o `348`.
 
--> PERGUNTA 2
+*(For example, for `array[5] = {132,1230,231,348,348}`, you would get the corresponding array `array_res[5] = {123,123,123,348,348}`. The most frequent would be `123` and the least frequent `348`.)*
 
-Dado o seguinte array, ordena os dígitos de cada elemento do array (colocando os
-dígitos por ordem crescente) e indica o 819.º elemento (índice 818) do array resultante.
+## PERGUNTA 2
 
+Dado o seguinte array, ordena os dígitos de cada elemento do array (colocando os dígitos por ordem crescente) e indica o **819º** elemento (**índice 818**) do array **resultante**.
+
+*(Given the following array, sort the digits of each element of the array (by putting the digits in ascending order) and indicate the **819th** (**index 818**) element of the resulting array.)*
+
+```C
 int sequencia[1513] = {637, 348, 210, 829, 670, 421, 769, 433, 658, 873, 932, 879, 650, 266, 366, 101, 418, 550, 
                        714, 249, 175, 682, 301, 768, 261, 994, 923, 189, 469, 413, 294, 227, 521, 492, 116, 123, 
                        183, 973, 350, 295, 243, 438, 833, 261, 754, 729, 937, 585, 182, 315, 318, 425, 163, 993, 
@@ -196,18 +200,18 @@ int sequencia[1513] = {637, 348, 210, 829, 670, 421, 769, 433, 658, 873, 932, 87
                        360, 144, 979, 585, 166, 982, 574, 812, 706, 538, 468, 924, 536, 467, 547, 685, 530, 256, 
                        414, 692, 699, 472, 667, 965, 395, 531, 797, 720, 474, 799, 849, 779, 766, 742, 527, 310, 
                        901};
+```
 
-Notas: Um zero à esquerda não é representado e, por isso, na prática, os zeros podem ser ignorados.
+**Notas**: Um zero à esquerda não é representado e, por isso, na prática, os zeros podem ser ignorados.
 
-Por exemplo, para o array[4] = {132,456,261,4830}, originaria o array correspondente array_res[4] = {123,126,348,456}.
-O terceiro elemento é o 348.
+*(**Notes**: A leading zero is not represented, so in practice zeros can be ignored.)*
 
-------------------------------------------------------------------------------------------------------------------------
+Por exemplo, para o `array[4] = {132,456,261,4830}`, originaria o array correspondente `array_res[4] = {123,126,348,456}`. O terceiro elemento é o **348**.
 
-RESPOSTAS:
+*(For example, for `array[4] = {132,456,261,4830}`, you would get the corresponding array `array_res[4] = {123,126,348,456}`. The third element is **348**.)*
 
-Pergunta 1 == 256
+## Respostas
 
-Pergunta 2 == 256
+Pergunta 1 == **256**
 
-------------------------------------------------------------------------------------------------------------------------
+Pergunta 2 == **256**
